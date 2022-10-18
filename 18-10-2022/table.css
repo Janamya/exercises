@@ -1,0 +1,21 @@
+html {
+    background-color: black;
+    font-size: 22px
+    
+}
+
+body {
+    background-color: black;
+    color: aliceblue;
+}
+
+table, td, tr {
+    color: aliceblue;
+    padding: 0.5rem;
+    border: 1px blue double;
+    border-collapse: collapse;
+}
+
+section {
+    color: purple;
+}

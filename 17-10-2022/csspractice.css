@@ -4,3 +4,22 @@ html {
 body {
     background-color: rgb(238, 229, 229);
     color: : black;}
+
+a {
+    color: brown;
+}
+
+a:visited {
+    color: brown;
+}
+
+a:hover, a:active {
+    color: orange;
+}
+
+table, tr, th, td, caption {
+    border:1px solid black;
+    font-family: : 'Courier New', Courier, monospace;
+    border-collapse: collapse;
+    padding: 0.5rem;
+}
