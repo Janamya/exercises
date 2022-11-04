@@ -21,7 +21,7 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        './test/specs/**/*.js'
+        './test/e2e/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -213,17 +213,32 @@ exports.config = {
               url: await browser.getUrl(),
             }
         })
-
+ 
         browser.addCommand('waitAndClick', async (selector) => {
             await $(selector).waitForDisplayed()
             await $(selector).click()
 
         })
-
+ 
         browser.overwriteCommand('pause', async(origPauseFunction, ms) => {
             console.log("Sleeping for" + ms)
             await origPauseFunction(ms)
             return ms
+        })
+
+        browser.addCommand('sauceLogin', async () => {
+            await $('.login-box').waitForDisplayed()
+            await $('[data-test="username"]').setValue('standard_user')
+            await $('[data-test="password"]').setValue('secret_sauce')
+            await $('[data-test="login-button"]').click()
+
+            browser.addCommand('sauceLogout', async () => {
+                await $('#react-burger-menu-btn').click()
+                await $('#logout_sidebar_link').waitForClickable()
+                await $('#logout_sidebar_link').click()
+            })
+            
+
         })
      },
     /**
