@@ -1,4 +1,4 @@
-describe('Advanced Testing', () => {
+describe.skip('Advanced Testing', () => {
     beforeEach(async () => {
         await browser.url('https://the-internet.herokuapp.com/upload')
 })
@@ -43,8 +43,37 @@ describe('Advanced Testing', () => {
     it('Create and Switch New Window', async () => {
         await browser.url('https://google.com')
         await browser.newWindow('https://webdriver.io.com')
-        await browser.pause(2000)
+        await browser.pause(3000)
         await browser.switchWindow('google.com') // ovo je da ti switcha na google poslije webdrivera
         await browser.pause(3000)
     })
-})
+
+/*     it('Network Throttle', async () => {
+//you can change it to offline as well, but it might get terminate becaouse internet will be lost 
+        await browser.throttle('Regular4G')
+        await browser.url('https://webdriver.io')
+        await browser.pause(3000)
+        
+    }) */
+
+    it('Execute JavaScript Code', async () => {
+        const result = await browser.execute(
+            (a, b) => {return a + b},
+                5,
+                10
+            )
+            await expect(result).toBe(15)
+        })
+
+        it('Execute async Javascript Code', async () => {
+            const result = await browser.executeAsync((a, b, done) => {
+                setTimeout(() => {
+                    done(a + b)
+                }, 3000)
+                },
+                5,
+                10
+            )
+            await expect(result).toBe(15)
+            })
+        })

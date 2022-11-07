@@ -222,7 +222,7 @@ exports.config = {
  
         browser.overwriteCommand('pause', async(origPauseFunction, ms) => {
             console.log("Sleeping for" + ms)
-            await origPauseFunction(ms)
+            origPauseFunction(ms)
             return ms
         })
 

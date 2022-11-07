@@ -20,12 +20,10 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [
-        './test/specs/**/*.js'
-    ],
+    specs: ['./test/specs/e2e/**/*.js'],
     // Patterns to exclude.
     exclude: [
-        // 'path/to/excluded/files'
+      // 'path/to/excluded/files'
     ],
     //
     // ============
@@ -49,20 +47,21 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
-    capabilities: [{
-    
+    capabilities: [
+      {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
         maxInstances: 5,
         //
         browserName: 'chrome',
-        acceptInsecureCerts: true
+        acceptInsecureCerts: true,
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    }],
+      },
+    ],
     //
     // ===================
     // Test Configurations
@@ -111,7 +110,7 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     services: ['chromedriver'],
-    
+  
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: https://webdriver.io/docs/frameworks
@@ -133,15 +132,13 @@ exports.config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: ['spec'],
-
-
-    
+  
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
-        ui: 'bdd',
-        timeout: 60000
+      ui: 'bdd',
+      timeout: 60000,
     },
     //
     // =====
@@ -164,19 +161,10 @@ exports.config = {
      * @param  {String} cid      capability id (e.g 0-0)
      * @param  {[type]} caps     object containing capabilities for session that will be spawn in the worker
      * @param  {[type]} specs    specs to be run in the worker process
-     * @param  {[type]} args     object that will be merged with the main configuration once worker is initialized
+     * @param  {[type]} args     object that will be merged with the main configuration once worker is initialised
      * @param  {[type]} execArgv list of string arguments passed to the worker process
      */
     // onWorkerStart: function (cid, caps, specs, args, execArgv) {
-    // },
-    /**
-     * Gets executed just after a worker process has exited.
-     * @param  {String} cid      capability id (e.g 0-0)
-     * @param  {Number} exitCode 0 - success, 1 - fail
-     * @param  {[type]} specs    specs to be run in the worker process
-     * @param  {Number} retries  number of retries used
-     */
-    // onWorkerEnd: function (cid, exitCode, specs, retries) {
     // },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
@@ -195,34 +183,34 @@ exports.config = {
      * @param {Array.<String>} specs        List of spec file paths that are to be run
      * @param {Object}         browser      instance of created browser/device session
      */
-     before: function (capabilities, specs) {
-        browser.addCommand('customFileUpload', async (path, uploadBoxSelector, uploadSubmitSelector) => {
-            const remoteFilePath = await browser.uploadFile(path)
-            await $(uploadBoxSelector).setValue(remoteFilePath)
-                await $(uploadSubmitSelector).click()
-    
+    before: function (capabilities, specs) {
+      browser.addCommand(
+        'customFileUpload',
+        async (path, uploadBoxSelector, submitUploadSelector) => {
+          const remoteFilePath = await browser.uploadFile(path)
+          await $(uploadBoxSelector).setValue(remoteFilePath)
+          await $(submitUploadSelector).click()
         }
-        )
-
-        browser.addCommand('getTitleAndUrl', async () =>{
-            return {
-                title: await browser.getTitle,
-                url: await browser.getUrl,
-            }
-        })
-
-        browser.addCommand('waitAndClick', async (selector) => {
-            await $(selector).waitForDisplayed()
-            await $(selector).click()
-        })
-
-        browser.overwriteCommand('pause', async (origPauseFunction, ms) => {
-            console.log('Sleeping for ' + ms)
-            await origPauseFunction(ms)
-            return ms
-        })
-    
-     },
+      )
+  
+      browser.addCommand('getTitleAndUrl', async () => {
+        return {
+          title: await browser.getTitle(),
+          url: await browser.getUrl(),
+        }
+      })
+  
+      browser.addCommand('waitAndClick', async (selector) => {
+        await (await $(selector)).waitForDisplayed()
+        await (await $(selector)).click()
+      })
+  
+      browser.overwriteCommand('pause', async (origPauseFunction, ms) => {
+        console.log('Sleeping for ' + ms)
+        await origPauseFunction(ms)
+        return ms
+      })
+    },
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {String} commandName hook command name
@@ -265,8 +253,7 @@ exports.config = {
      */
     // afterTest: function(test, context, { error, result, duration, passed, retries }) {
     // },
-
-
+  
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details
@@ -310,10 +297,10 @@ exports.config = {
     // onComplete: function(exitCode, config, capabilities, results) {
     // },
     /**
-    * Gets executed when a refresh happens.
-    * @param {String} oldSessionId session ID of the old session
-    * @param {String} newSessionId session ID of the new session
-    */
-    // onReload: function(oldSessionId, newSessionId) {
-    // }
-}
+     * Gets executed when a refresh happens.
+     * @param {String} oldSessionId session ID of the old session
+     * @param {String} newSessionId session ID of the new session
+     */
+    //onReload: function(oldSessionId, newSessionId) {
+    //}
+  }

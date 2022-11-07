@@ -1,4 +1,4 @@
-describe('My first test suite', () => {
+describe.skip('My first test suite', () => {
     it('my first wdio test', async () => {
         let myUrl = 'https://www.example.com'
         await browser.url(myUrl)
