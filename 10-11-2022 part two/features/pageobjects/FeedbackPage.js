@@ -38,12 +38,16 @@ class FeedbackPage extends AbstractPage {
     async assertFeedbackFormVisible() {
         await this.feedbackForm.waitForDisplayed()
     }
-
-    async submitFeedback() {
-        await this.name.setValue("lamija")
-        await this.email.setValue("my@gemail.com")
-        await this.subject.setValue("somesubject")
-        await this.message.setValue("somemessage")
+// Input name
+    async submitFeedback(name, email, subject, message) {
+        // if(!name&& !email&&!subject&&!message
+        //     ){
+        //         console.log("NE RADIIII")
+        //     }
+        await this.name.setValue(name || "Johny")
+        await this.email.setValue(email || "test@test.com")
+        await this.subject.setValue(subject || "somesubject")
+        await this.message.setValue(message || "somemessage")
         await this.sendFeedbackButton.click()
     }
 

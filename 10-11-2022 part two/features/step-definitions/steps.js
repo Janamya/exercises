@@ -14,6 +14,11 @@ Given(/^I am on the home page$/, async () => {
     await HomePage.visit()
 });
 
+Given(/^I am on the feedback page$/, async () => {
+    await FeedbackPage.visit();
+    await FeedbackPage.waitForSeconds(2)
+});
+
 When(/^I login with (\w+) and (.+)$/, async (username, password) => {
     await LoginPage.login(username, password)
 });
@@ -26,6 +31,11 @@ When(/^I search for "([^"]*)"$/, async (text) => {
     await HomePage.searchValue(text)
 });
 
+When(/^I submit the feedback form$/, async () => {
+    await FeedbackPage.submitFeedback()
+    await FeedbackPage.waitForSeconds(3)
+
+});
 
 Then(/^I should see error message$/, async () => {
     await LoginPage.assertErrorMessage()
@@ -36,15 +46,7 @@ Then(/^I should see results$/, async () => {
     await HomePage.assertResults()
     
 });
-
-Given(/^I am on the feedback page$/, async () => {
-    await FeedbackPage.visit()
-});
-When(/^I submit the feedback form$/, async () => {
-    await FeedbackPage.submitFeedback()
-});
-
 Then(/^I should see feedback results$/, async () => {
     await FeedbackPage.assertFeedbackIsSent()
-    await FeedbackPage.waitForSeconds(2)
+    await FeedbackPage.waitForSeconds()
 });
