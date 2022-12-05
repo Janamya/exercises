@@ -49,6 +49,7 @@ class FeedbackPage extends AbstractPage {
         await this.subject.setValue(subject || "somesubject")
         await this.message.setValue(message || "somemessage")
         await this.sendFeedbackButton.click()
+        await browser.pause(3)
     }
 
     async assertFeedbackIsSent() {

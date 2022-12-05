@@ -1,0 +1,147 @@
+{
+	"id": "e13fafb6-582e-4aef-bf1d-454b34df8e3e",
+	"name": "Trello CURD Test Environment",
+	"values": [
+		{
+			"key": "randomName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "setFirstCardId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "idBoard",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "idList",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "cardName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "allLists",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "Cards Name",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "all_lists_on_board",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "listsOnBoardId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "listsId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "allListsOnBoard",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "allCardsOnBoard",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "mySecondBoardID",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "id_of_card_on_list",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "name_of_card_on_list",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "cardsBoardId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "cardssId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "unarchivedListId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "unarchivedListBoard",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "archivedListBoardId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "archivedListId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "currentDate",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "listName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2022-12-05T12:46:43.401Z",
+	"_postman_exported_using": "Postman/10.5.7"
+}

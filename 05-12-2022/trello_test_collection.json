@@ -1,0 +1,1217 @@
+{
+	"info": {
+		"_postman_id": "af0e4ebd-bef7-4c93-a5b3-999619f701b3",
+		"name": "Trello CRUD API Collection Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24455701"
+	},
+	"item": [
+		{
+			"name": "Get a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var getBoard = pm.response.json(responseBody);",
+							"var boardUrl = getBoard.url",
+							"",
+							"/* var secondUrl = getBoard.prefs.backgroundImageScaled[0].width",
+							"console.log(secondUrl) */",
+							"",
+							"pm.test(\"Board URL is eql my-second-board\", function() {",
+							"if(boardUrl === \"https://trello.com/b/B2zTRTct/my-second-board\") {",
+							"    pm.expect(boardUrl).to.eql(\"https://trello.com/b/B2zTRTct/my-second-board\")",
+							"}",
+							"})",
+							"",
+							"/* pm.test(\"Board URL includes my-second-board\", function() {",
+							"if(boardUrl.includes(\"trello\")) {",
+							"    console.log(\"Board URL contains my-second-board\")",
+							"}",
+							"}) */",
+							"",
+							"var mySecondBoardID = getBoard.id;",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Set 'My second board Id\", function () {",
+							"    pm.environment.set(\"mySecondBoardID\", mySecondBoardID)",
+							"})",
+							"pm.environment.get(\"variable_key\");",
+							"",
+							"",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(getBoard.name).to.include(\"My second board\");",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 900ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/637c9d83e0a46802507d8037?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"637c9d83e0a46802507d8037"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new List",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomName = pm.variables.replaceIn('{{$randomFirstName}}')",
+							"pm.environment.set(\"randomName\", randomName )",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var newlyCreatedList = pm.response.json();",
+							"const idList = newlyCreatedList.id;",
+							"const boardId = newlyCreatedList.idBoard;",
+							"",
+							"",
+							"pm.test(\"Set idBoard variable\", function () {",
+							"    pm.environment.set(\"idBoard\", boardId);",
+							"});",
+							"",
+							"pm.test(\"Set idList variable\", function () {",
+							"    pm.environment.set(\"idList\", idList);",
+							"});",
+							"",
+							"pm.test(\"Check if newly created list is on 'My second board\", function () {",
+							"var getIdMySecondBoard = pm.environment.get(\"mySecondBoardID\")",
+							"pm.expect(boardId).to.eql(getIdMySecondBoard)",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/lists?name={{randomName}}&idBoard=637c9d83e0a46802507d8037&key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{randomName}}"
+						},
+						{
+							"key": "idBoard",
+							"value": "637c9d83e0a46802507d8037"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get lists on the board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// const lists = jsonData;",
+							"var allListssOnBoard = pm.response.json(); ",
+							"",
+							"",
+							" pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Set all lists\", function () {",
+							"    pm.environment.set(\"allLists\", allListssOnBoard)",
+							"}); ",
+							"",
+							"pm.test(\"Check if all the lists are on the same board\", function() {",
+							" var getMySecondBoardId = pm.environment.get(\"mySecondBoardID\")",
+							" allListssOnBoard.map((singleListOnBoard) => {",
+							"     var listsOnBoardId = singleListOnBoard.idBoard",
+							"",
+							"     pm.environment.set(\"listsOnBoardId\", listsOnBoardId)",
+							"     pm.expect(listsOnBoardId).to.eql(getMySecondBoardId)",
+							" })",
+							"})",
+							"",
+							"pm.test(\"Set Id of all the lists on the board\", function(){",
+							"    allListssOnBoard.map((singleListOnBoard)=> {",
+							"        var idListOnBoard = singleListOnBoard.id;",
+							"        pm.environment.set(\"listsId\", idListOnBoard)",
+							"    })",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/{{idBoard}}/lists?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{idBoard}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a new card in a List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var newCard = pm.response.json();",
+							"",
+							"const firstCardId = newCard.id;",
+							"const idList = newCard.idList;",
+							"const boardId = newCard.idBoard;",
+							"const cardName = newCard.name;",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Card ID: \"+ firstCardId, function () {",
+							"   pm.environment.set(\"setFirstCardId\", firstCardId);",
+							"   });",
+							"",
+							"",
+							"pm.test(\"Validate that the card is in board ID \", function () {",
+							"   var getIdBoard = pm.environment.get(\"idBoard\");",
+							"   pm.expect(boardId).to.eql(getIdBoard);",
+							"   }); ",
+							"",
+							"//I am comparing the id from created list with idList of newly created card ",
+							"pm.test(\"Validate that this card is in the accurate list\", function () {",
+							"    var getIdList = pm.environment.get(\"idList\");",
+							"    pm.expect(idList).to.eql(getIdList);",
+							"    ",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.trello.com/1/cards?idList={{idList}}&key={{key}}&token={{myTokenTrello}}&name=New card&pos=top",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{idList}}"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						},
+						{
+							"key": "name",
+							"value": "New card"
+						},
+						{
+							"key": "desc",
+							"value": "This is some description",
+							"disabled": true
+						},
+						{
+							"key": "pos",
+							"value": "top"
+						},
+						{
+							"key": "due",
+							"value": "10/10/2025",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cards in a List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var allCardsInList = pm.response.json(); ",
+							"var boardID = allCardsInList[0].idBoard;",
+							"const cardName = allCardsInList[0].name;",
+							"",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"//Checking that all the cards in the lists are in the same board",
+							"pm.test(\"Validate the Board Id\", function () {",
+							"    var getIdBoard = pm.environment.get('idBoard');",
+							"    pm.expect(boardID).to.eql(getIdBoard);",
+							"});",
+							"",
+							"pm.test(\"Set card name\", function () {",
+							"    pm.environment.set(\"cardName\", cardName);",
+							"});",
+							"",
+							"",
+							"//Checking that all the cards are in one of the lists on the board",
+							"pm.test(\"Validate that the card are in the list\", function () {",
+							"   var getAllLists = pm.environment.get(\"allLists\");",
+							"   ",
+							"    allCardsInList.map((singleCard)=> { //da bi pristupila svakom objektu zasebno.. nebitan ti je naziv varijable",
+							"    getAllLists.map((singleList)=> {",
+							"       if(singleList.id === singleCard.idList)",
+							"        {",
+							"           pm.expect(singleList.id).to.eql(singleCard.idList)",
+							"       } ",
+							"     })",
+							"    })",
+							"})",
+							"",
+							"pm.test(\"Set var for all the cards id and name, and idBoard in List\", function () {",
+							"   allCardsInList.map((SingleCardOnList)=> {",
+							"       //This var is the id of all cards in a List",
+							"   var idCardsInList = SingleCardOnList.id ",
+							"   //This var is the name of all cards in a List",
+							"   var nameCardsInList = SingleCardOnList.name",
+							"   pm.environment.set(\"id_of_card_on_list\", idCardsInList)",
+							"   pm.environment.set(\"name_of_card_on_list\", nameCardsInList)",
+							"   //This var is the boardID of all cards in a List",
+							"   var cardIdBoard = SingleCardOnList.idBoard",
+							"   pm.environment.set(\"cardsBoardId\", cardIdBoard)",
+							"})",
+							"});",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.trello.com/1/lists/{{idList}}/cards?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"lists",
+						"{{idList}}",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all the Cards on a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var allCardsOnBoard = pm.response.json();",
+							"",
+							"",
+							"pm.test(\"Map all Cards on board and set cards name variable\", function () {",
+							"    pm.environment.set(\"allCardsOnBoard\", allCardsOnBoard)",
+							" allCardsOnBoard.map((singleCardonBoard)=> {",
+							"    var getIdBoard = pm.environment.get(\"idBoard\")",
+							"    var cardsName = singleCardonBoard.name",
+							"    pm.environment.set(\"Cards Name\", cardsName);",
+							"    ",
+							"    var cardssID = singleCardonBoard.id",
+							"    pm.environment.set(\"cardssId\", cardssID)",
+							"    ",
+							"})",
+							"});",
+							"",
+							"pm.test(\"Check if all cards on the List are on 'My second Board'\", function () {",
+							"    var getCardsBoardId = pm.environment.get(\"cardsBoardId\");",
+							"    var getIdBoard = pm.environment.get(\"idBoard\")",
+							"    pm.expect(getCardsBoardId).to.eql(getIdBoard)",
+							"})",
+							" ",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/{{idBoard}}/cards?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{idBoard}}",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a single Card on a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var singleCardOnBoard = pm.response.json();",
+							"var singleCardOnBoardId = singleCardOnBoard.id;",
+							"var singleCardOnBoardName = singleCardOnBoard.name;",
+							"var singleCardOnBoardListId = singleCardOnBoard.idList;",
+							"",
+							"pm.test(\"Status code is 200\", function () { ",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"/* pm.test(\"Check if this card is in one of the lists on the Board\", function() {",
+							"    var getAllLists = pm.environment.get('allListsOnBoard')",
+							"    console.log({getAllLists})",
+							"    var list = getAllLists.find(list => list.id === singleCardOnBoardListId);",
+							"",
+							"        console.log({list})",
+							"        pm.expect(singleCardOnBoardListId).to.eql(list.id) */",
+							"//     getAllLists.map((singleList) => {",
+							"//         console.log({singleCardOnBoardListId})",
+							"//  }) ",
+							"//})",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/637c9d83e0a46802507d8037/cards/{{id_of_card_on_list}}?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"637c9d83e0a46802507d8037",
+						"cards",
+						"{{id_of_card_on_list}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var deletedCardResponse = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/cards/{{id_of_card_on_list}}?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"cards",
+						"{{id_of_card_on_list}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all the Cards on a Board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var allCardsOnBoard = pm.response.json();",
+							"",
+							"",
+							"pm.test(\"Check if the deleted card is still on the board\", function() {",
+							"pm.environment.get(\"cardssId\")",
+							"allCardsOnBoard.map((singleCardOnBoard => {",
+							"    var singleCardId = singleCardOnBoard.id",
+							"    ",
+							"    pm.expect(singleCardId).not.to.eql(\"cardssId\")",
+							"}))",
+							"}) ",
+							"",
+							"",
+							" ",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/{{idBoard}}/cards?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{idBoard}}",
+						"cards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Archive a list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var archivedList = pm.response.json()",
+							"",
+							"var archivedListBoardId = archivedList.idBoard",
+							"",
+							"var archivedListId = archivedList.id",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Set archivedListBoardId\", function(){",
+							"    pm.environment.set(\"archivedListBoardId\", archivedListBoardId)",
+							"    pm.environment.set(\"archivedListId\", archivedListId)",
+							"})",
+							"",
+							"pm.test(\"Check if list is archived\", function() {",
+							"    var getIdList = pm.environment.get(\"idList\")",
+							"    var getListsOnBoardId = pm.environment.get(\"listsOnBoardId\")",
+							"    pm.expect(getIdList).not.include(getListsOnBoardId)",
+							"})",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/lists/{{idList}}/closed?key={{key}}&token={{myTokenTrello}}&value=true",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"lists",
+						"{{idList}}",
+						"closed"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						},
+						{
+							"key": "value",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get lists on the board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var listsOnBoard = pm.response.json(); ",
+							"var boardd = listsOnBoard[0].idBoard",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Check if list is archived\", function() {",
+							"    var getArchivedListId = pm.environment.get(\"getArchivedListId\")",
+							" listsOnBoard.map((singleList)=> {",
+							" if(singleList.id !== getArchivedListId){",
+							"          pm.expect(singleList.id).to.not.eql(getArchivedListId)",
+							"       }",
+							" })",
+							" })",
+							"",
+							" pm.test(\"Check if the list is archived\", function() {",
+							"     var getArchivedListId = pm.environment.get(\"getArchivedListId\")",
+							"",
+							"     const result = listsOnBoard.find(listId)",
+							"     function listId(listsOnBoard) {",
+							"         if (getArchivedListId === listsOnBoard.id) {",
+							"             pm.expect.fail(\"This test failed because the list is not archived\")",
+							"         } else {",
+							"             pm.expect(getArchivedListId !== listsOnBoard.id)",
+							"         }",
+							"     }",
+							" })",
+							"",
+							"",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/{{idBoard}}/lists?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{idBoard}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unarchive a list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var unarchivedList = pm.response.json()",
+							"var unarchivedListId = unarchivedList.id;",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Set id of archived list\", function () {",
+							"pm.environment.set(\"unarchivedListId\", unarchivedListId)",
+							"})",
+							"",
+							"",
+							"pm.test(\"Set board id of the list\", function () {",
+							"    var unarchivedListBoard = unarchivedList.idBoard",
+							"    pm.environment.set(\"unarchivedListBoard\", unarchivedListBoard)",
+							"})",
+							"",
+							"/* pm.test(\"Check if list is unarchived\", function() {",
+							"    var getIdList = pm.environment.get(\"idList\")",
+							"    console.log(\"get id\",getIdList)",
+							"   ",
+							"    var getAllListsOnBoard = pm.environment.get(\"allLists\")",
+							"    var id = getAllListsOnBoard.find(id => getIdList === getAllListsOnBoard)",
+							"    console.log({id})",
+							"",
+							"}) */"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/lists/{{idList}}/closed?key={{key}}&token={{myTokenTrello}}&value=false",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"lists",
+						"{{idList}}",
+						"closed"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						},
+						{
+							"key": "value",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get lists on the board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var listsOnBoard = pm.response.json(); ",
+							"var boardd = listsOnBoard[0].idBoard",
+							"var listName = listsOnBoard[0].name;",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Set list name\", function() {",
+							"    pm.environment.set(\"listName\", listName)",
+							"})",
+							"",
+							"pm.test(\"Check if unarchived list is back on board\", function() {",
+							" var getUnarchivedListBoard = pm.environment.get(\"unarchivedListBoard\")",
+							" pm.expect(boardd).to.eql(getUnarchivedListBoard)",
+							" })",
+							"",
+							"",
+							" pm.test(\"Check if list is unarchived\", function() {",
+							"    var getArchivedListId = pm.environment.get(\"getArchivedListId\")",
+							" listsOnBoard.map((singleList)=> {",
+							" if(singleList.id === getArchivedListId){",
+							"           pm.expect(singleList.id).to.eql(getArchivedListId)",
+							"       }",
+							" })",
+							" })",
+							"",
+							" pm.test(\"Validate the list is on the board - great\", function () {",
+							"    var getBoardId = pm.environment.get(\"idBoard\")",
+							"    const result = listsOnBoard.find(id)",
+							"    function id(listsOnBoard) {",
+							"    if (listsOnBoard.idBoard === getBoardId) {",
+							"        pm.expect(listsOnBoard.idBoard).to.eql(getBoardId)",
+							"    }",
+							"else {",
+							"    pm.expect.fail(\"This test failed because the list is not on the board\")",
+							"}",
+							"    }",
+							"})",
+							"",
+							"",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/{{idBoard}}/lists?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{idBoard}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update name of the list",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let date = Date.now();",
+							"",
+							"pm.environment.set(\"currentDate\", date);",
+							"",
+							"console.log(date)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var updatedList = pm.response.json();",
+							"var updatedListName = updatedList.name;",
+							"var parsedName = parseInt(updatedListName)",
+							"",
+							"/* var getCurrentDate = pm.environment.get(\"currentDate\", currentDate)",
+							"console.log(\"this date\", currentDate) */",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Check if the list's name is updated\", function() {",
+							"    var getListName = pm.environment.get(\"listName\")",
+							"    pm.expect(updatedList).to.not.eql(getListName)",
+							"})",
+							"",
+							"pm.test(\"Validate that list name is eql to currentDate\", function() {",
+							"    pm.expect(parsedName).to.eql(pm.environment.get(\"currentDate\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://api.trello.com/1/lists/{{idList}}?key={{key}}&token={{myTokenTrello}}&name={{currentDate}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"lists",
+						"{{idList}}"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						},
+						{
+							"key": "name",
+							"value": "{{currentDate}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get lists on the board-check updated list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var allLists = pm.response.json();",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Check if updated list is still on board\", function () {",
+							"    var getBoardId = pm.environment.get(\"mySecondBoardID\")",
+							"    ",
+							"    const result = allLists.find(id); ",
+							"    function id(allLists) {",
+							"        if (allLists.idBoard === getBoardId) {",
+							"        pm.expect(allLists.idBoard).to.eql(getBoardId)",
+							"    } else {",
+							"     pm.expect.fail('This failed because updated list is not anymore on the board')",
+							"    }",
+							"    }",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.trello.com/1/boards/{{idBoard}}/lists?key={{key}}&token={{myTokenTrello}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"trello",
+						"com"
+					],
+					"path": [
+						"1",
+						"boards",
+						"{{idBoard}}",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{myTokenTrello}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "key",
+			"value": "0d76363f8c46fc0cea35784164dbdd94"
+		},
+		{
+			"key": "myTokenTrello",
+			"value": "facd4aeb692d6128f13a789b42d54b3a43412ce5e398b245e315427e49722370"
+		},
+		{
+			"key": "idSecondBoard",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idLejlaList",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idEdibList",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idShemaList",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
