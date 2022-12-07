@@ -2,19 +2,19 @@ const AbstractPage = require("./AbstractPage");
 
 class LoginPage extends AbstractPage{
     get inputEmail() {
-        return $('#user')
+        return $('//*[@id="user"]')
     }
     get continueBtn() {
         return $('//*[@value="Continue"]')
     }
     get inputPassword() {
-        return $('#password')
+        return $('//*[@id="password"]')
     }
     get loginSubmit() {
-        return $('#login-submit')
+        return $('//*[@id="login-submit"]')
     }
-    get trelloHomepage( ){
-        return $('#popover-boundary')
+    get trelloHomepage(){
+        return $('//*[@id="popover-boundary"]')
     }
 
     async visit() {
@@ -22,20 +22,21 @@ class LoginPage extends AbstractPage{
     } 
     async login() {
         await (await this.inputEmail).setValue('lamija.pehilj@gmail.com')
-        await browser.pause(3000)
+        //await browser.pause(3000)
         //await (await this.continueBtn).waitForClickable()
-        await browser.pause(3000)
+        //await browser.pause(3000)
+        await (await this.continueBtn).waitForEnabled()
         await (await this.continueBtn).click()
-        await browser.pause(7000)
-
+        //await browser.pause(7000)
+        await (await this.inputPassword).waitForDisplayed()
         await (await this.inputPassword).setValue('Avirad23_')
-        await browser.pause(7000)
+        await (await this.loginSubmit).waitForEnabled()
 
         return (await this.loginSubmit).click()
 
     }
     async assertLogin() {
-        await browser.pause(7000)
+        //await browser.pause(7000)
 
         await expect(this.trelloHomepage).toBeDisplayed()
     }
