@@ -17,29 +17,39 @@ class LoginPage extends AbstractPage{
         return $('//*[@id="popover-boundary"]')
     }
 
+    //This getter is for negative test
+    get loginError() {
+        return $('//*[@id="login-error"]')
+    }
+
+
     async visit() {
         await browser.url("https://trello.com/login")
     } 
-    async login() {
+    async login(password) {
         await (await this.inputEmail).setValue('lamija.pehilj@gmail.com')
-        //await browser.pause(3000)
-        //await (await this.continueBtn).waitForClickable()
-        //await browser.pause(3000)
+    
         await (await this.continueBtn).waitForEnabled()
         await (await this.continueBtn).click()
         //await browser.pause(7000)
         await (await this.inputPassword).waitForDisplayed()
-        await (await this.inputPassword).setValue('Avirad23_')
+        await (await this.inputPassword).setValue(password)
         await (await this.loginSubmit).waitForEnabled()
 
         return (await this.loginSubmit).click()
 
     }
+    
     async assertLogin() {
-        //await browser.pause(7000)
+        await browser.pause(7000)
 
         await expect(this.trelloHomepage).toBeDisplayed()
     }
+
+    async errorMessage() {
+        await expect(this.loginError).toHaveTextContaining('Incorrect email address and / or password.')
+    }
+
 }
 
 

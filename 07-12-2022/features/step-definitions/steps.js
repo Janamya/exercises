@@ -1,16 +1,21 @@
-const { Given, When, Then, defineStep } = require('@wdio/cucumber-framework');
+const { Given, When, Then} = require('@wdio/cucumber-framework');
 
 const LoginPage = require('../pageobjects/LoginPage');
 
-defineStep(/^I am on the login page$/, async () => {
+Given(/^I am on the login page$/, async () => {
     await LoginPage.visit()
 });
-
-defineStep(/^I login with email and password$/, async () => {
-    await LoginPage.login()
+When(/^I login with email and "([^"]*)"$/, async (password) => {
+    await LoginPage.login(password)
 });
 
-defineStep(/^I should see Trello homepage$/, async () => {
+When(/^I login with invalid email and password$/, async () => {
+    await LoginPage.invalidLogin()
+});
+
+Then(/^I should see error message$/, async () => {
+    await LoginPage.errorMessage()
+});
+Then(/^I should see Trello homepage$/, async () => {
     await LoginPage.assertLogin()
 });
-
