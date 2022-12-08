@@ -26,6 +26,7 @@ class LoginPage extends AbstractPage{
     async visit() {
         await browser.url("https://trello.com/login")
     } 
+    
     async login(password) {
         await (await this.inputEmail).setValue('lamija.pehilj@gmail.com')
     
@@ -39,7 +40,7 @@ class LoginPage extends AbstractPage{
         return (await this.loginSubmit).click()
 
     }
-    
+
     async assertLogin() {
         await browser.pause(7000)
 
