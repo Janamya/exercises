@@ -2,6 +2,9 @@ const { Given, When, Then} = require('@wdio/cucumber-framework');
 
 const LoginPage = require('../pageobjects/LoginPage');
 const HomePage = require('../pageobjects/HomePage');
+const CreateBoardPage = require('../pageobjects/CreateBoardPage');
+const BoardPage = require('../pageobjects/BoardPage')
+
 
 Given(/^I am on the login page$/, async () => {
     await LoginPage.visit()
@@ -28,5 +31,20 @@ When(/^I fill the workspace form$/, async () => {
     await HomePage.assertWorkspaceForm()
 });
 Then(/^I should see workspace board$/, async () => {
-    await HomePage.assertWorkspaceCreated()
+    await HomePage.assertShowLater()
+});
+
+Given(/^I am on the create board page$/, async () => {
+    await CreateBoardPage.visit()
+});
+When(/^I fill out the board form$/, async () => {
+    await CreateBoardPage.fillBoardForm()
+});
+Then(/^The board should be created$/, async () => {
+    await CreateBoardPage.assertBoardCreated()
+});
+
+
+Given(/^I am on the board page$/, async () => {
+    await BoardPage.visit()
 });

@@ -12,3 +12,16 @@ Scenario: As a user, I can create workspace
     Given I am on the homepage 
     When I fill the workspace form
     Then I should see workspace board
+
+
+Scenario: As a user, I can create a board
+
+    Given I am on the create board page
+    When I fill out the board form 
+    Then The board should be created
+
+
+Scenario: As a user, I can create a list on the board
+
+    Given I am on the board page
+  
