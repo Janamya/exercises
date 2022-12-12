@@ -2,7 +2,7 @@ const AbstractPage = require("./AbstractPage");
 
 class BoardPage extends AbstractPage {
   get addListBtn() {
-    return $('.icon-add')
+    return $('//*[@class="open-add-list js-open-add-list"]')
   }
   get inputListName() {
     return $('//*[@class="list-name-input"]')
@@ -18,20 +18,23 @@ class BoardPage extends AbstractPage {
         await browser.url("https://trello.com/b/wYIdWjr5/hh")
         await browser.pause(7000)
     }
-/*   async createList() {
-    await browser.pause(3000)
-        await (await this.addListBtn).waitForClickable()
+
+    async createList() {
+   //await browser.pause(3000)
+        await (await this.addListBtn).waitForEnabled()
         await (await this.addListBtn).click()
-        await (await this.inputListName).waitForEnabled()
+        //await (await this.addListBtn).pause(6000)
+        //await (await this.inputListName).waitForEnabled()
         await (await this.inputListName).setValue("My Awesome List")
+        //await this.browser.pause(4000)
         await (await this.submitBtn).waitForEnabled()
-        await this.submitBtn.click();
+        return this.submitBtn.click();
   }
 
    async assertListCreated() {
         await (await this.listCreated).waitForDisplayed()
         await expect(this.listCreated).toBeDisplayed()
-   } */
+   } 
 }
 
 

@@ -24,4 +24,6 @@ Scenario: As a user, I can create a board
 Scenario: As a user, I can create a list on the board
 
     Given I am on the board page
+    When I submit list form
+    Then The list is created
   

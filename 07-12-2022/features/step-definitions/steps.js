@@ -48,3 +48,9 @@ Then(/^The board should be created$/, async () => {
 Given(/^I am on the board page$/, async () => {
     await BoardPage.visit()
 });
+When(/^I submit list form$/, async () => {
+    await BoardPage.createList()
+});
+Then(/^The list is created$/, async () => {
+    await BoardPage.assertListCreated()
+});
