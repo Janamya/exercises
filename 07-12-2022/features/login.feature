@@ -40,3 +40,9 @@ Scenario: As a user, I can archive cards on the list
     Given I am on the archive cards board page
     When I click on archive all cards 
     Then All the cards in the list are archived
+
+Scenario: As a user, I can logout from Trello
+
+    Given I am on logged in to Trello
+    When I click on logout button
+    Then I should see login page

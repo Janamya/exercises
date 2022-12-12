@@ -7,6 +7,7 @@ const BoardPage = require('../pageobjects/BoardPage')
 const CreateCardBoardPage = require('../pageobjects/CreateCardBoardPage');
 const { createCard } = require('../pageobjects/CreateCardBoardPage');
 const ArchiveCardsBoardPage = require('../pageobjects/ArchiveCardsBoardPage');
+const LogoutPage = require('../pageobjects/LogoutPage');
 
 Given(/^I am on the login page$/, async () => {
     await LoginPage.visit()
@@ -74,4 +75,15 @@ When(/^I click on archive all cards$/, async () => {
 });
 Then(/^All the cards in the list are archived$/, async () => {
     await ArchiveCardsBoardPage.assertCardsArchived()
+});
+
+
+Given(/^I am on logged in to Trello$/, async () => {
+    await LogoutPage.visit()
+});
+When(/^I click on logout button$/, async () => {
+    await LogoutPage.logout()
+});
+Then(/^I should see login page$/, async () => {
+    await LogoutPage.assertLogout()
 });
