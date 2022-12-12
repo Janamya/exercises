@@ -20,13 +20,10 @@ class BoardPage extends AbstractPage {
     }
 
     async createList() {
-   //await browser.pause(3000)
         await (await this.addListBtn).waitForEnabled()
         await (await this.addListBtn).click()
-        //await (await this.addListBtn).pause(6000)
         //await (await this.inputListName).waitForEnabled()
         await (await this.inputListName).setValue("My Awesome List")
-        //await this.browser.pause(4000)
         await (await this.submitBtn).waitForEnabled()
         return this.submitBtn.click();
   }

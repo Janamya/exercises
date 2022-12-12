@@ -4,6 +4,8 @@ const LoginPage = require('../pageobjects/LoginPage');
 const HomePage = require('../pageobjects/HomePage');
 const CreateBoardPage = require('../pageobjects/CreateBoardPage');
 const BoardPage = require('../pageobjects/BoardPage')
+const CreateCardBoardPage = require('../pageobjects/CreateCardBoardPage');
+const { createCard } = require('../pageobjects/CreateCardBoardPage');
 
 
 Given(/^I am on the login page$/, async () => {
@@ -44,7 +46,6 @@ Then(/^The board should be created$/, async () => {
     await CreateBoardPage.assertBoardCreated()
 });
 
-
 Given(/^I am on the board page$/, async () => {
     await BoardPage.visit()
 });
@@ -53,4 +54,14 @@ When(/^I submit list form$/, async () => {
 });
 Then(/^The list is created$/, async () => {
     await BoardPage.assertListCreated()
+});
+
+Given(/^I am on the create card board page$/, async () => {
+    await CreateCardBoardPage.visit()
+});
+When(/^I submit card form$/, async () => {
+    await CreateCardBoardPage.createCard()
+});
+Then(/^The card is created$/, async () => {
+    await CreateCardBoardPage.assertCardCreated()
 });
