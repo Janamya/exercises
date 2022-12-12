@@ -6,7 +6,7 @@ const CreateBoardPage = require('../pageobjects/CreateBoardPage');
 const BoardPage = require('../pageobjects/BoardPage')
 const CreateCardBoardPage = require('../pageobjects/CreateCardBoardPage');
 const { createCard } = require('../pageobjects/CreateCardBoardPage');
-
+const ArchiveCardsBoardPage = require('../pageobjects/ArchiveCardsBoardPage');
 
 Given(/^I am on the login page$/, async () => {
     await LoginPage.visit()
@@ -64,4 +64,14 @@ When(/^I submit card form$/, async () => {
 });
 Then(/^The card is created$/, async () => {
     await CreateCardBoardPage.assertCardCreated()
+});
+
+Given(/^I am on the archive cards board page$/, async () => {
+    await ArchiveCardsBoardPage.visit()
+});
+When(/^I click on archive all cards$/, async () => {
+    await ArchiveCardsBoardPage.archiveCards()
+});
+Then(/^All the cards in the list are archived$/, async () => {
+    await ArchiveCardsBoardPage.assertCardsArchived()
 });
