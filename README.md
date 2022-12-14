@@ -19,9 +19,8 @@ Code Editor which I used was Visual Studio Code.
 Automation testing of Trello website application is conducted using _CRUD functions_.
 
 ### Automation with WebdriverIo - folder 07-12-2022
-* Create a Project Directory on your machine 
 * Download zip exercise folder [Automation Trello Project](https://github.com/Janamya/exercises/commit/96221922aa6bc801b472f4b684848a961f1fac49) and to set it and run, kindly:
-* [Install Node.JS - version 19.2](https://github.com/Janamya/exercises/commit/96221922aa6bc801b472f4b684848a961f1fac49)
+* Install Node.JS - version 19.2
 * Open folder 07-12-2022
 * On Terminal, type **npm install** in order to be able to run the tests
 * Type command **npm run wdio** to run the tests
