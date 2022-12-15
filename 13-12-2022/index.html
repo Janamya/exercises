@@ -1,0 +1,23 @@
+<html>
+
+<head>
+    <title>JavaScript</title>
+</head>
+
+<body>
+    <div class="output"></div>
+    Name: <input type="text" value="Laurence">
+    <button type="button">Message</button>
+    <script>
+        const button = document.querySelector("button");
+        const input = document.querySelector("input")
+        const output = document.querySelector(".output")
+        
+        button.addEventListener("click", tempMessage);
+        function tempMessage() {
+            output.innerHTML = `<h1>Hello ${input.value}</h1>`
+        }
+    
+    </script>
+</body>
+</html>
