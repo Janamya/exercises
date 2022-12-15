@@ -23,6 +23,9 @@ Automation testing of Trello website application is conducted using _CRUD functi
 * Install Node.JS - version 19.2
 * Open folder 07-12-2022
 * On Terminal, type **npm install** in order to be able to run the tests
+```bash
+$ npm install
+```
 * Type command **npm run wdio** to run the tests
 
 ### API Test Collection - folder 05-12-2022
