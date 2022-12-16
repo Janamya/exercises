@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <p id="aaaa"></p>
+    <p id="demo"></p>
+    <button onclick="myFunction()">Click Me</button>
+
+   
+    <script>
+     
+     
+    //practice boolean
+    var a = Boolean(60);
+    var b = Boolean(40);
+    var d = Boolean(0)
+
+    document.getElementById("aaaa").innerHTML =
+    "60 is " + a + "<br>" +
+    "40 is " + b + "<br>" +
+    "Zero is " + d; 
+
+
+    //scores
+    var scores = 65;
+
+    if(scores<70) {
+       document.write("A");
+     } else if (scores < 50){
+        document.write("B")
+     }else {
+        window.alert("Error")
+     }
+     
+     //for loop - to output something number of times
+     //output numbers from 0-10 in different rows
+     
+     var count;
+
+     for(count = 0; count <= 10; count++) {
+        document.write(count);
+        document.write("<br />");
+     }
+
+     //for in loop will loop through each element of the object and output the data
+     var txt = "";
+     var person = {fname:"John", lname:"Smith", age:30};
+     var x;
+     for (x in person) {
+        txt += person[x] + " ";
+     }
+     document.getElementById("demo").innerHTML = txt;
+    
+
+     //while loop will loop throught a block of code as long as the specified condition is meet
+     var i = 0; 
+     while (i < 20) {
+        document.write(i);
+        i++;
+     }
+
+     //do while loop - will always execute the block of code before checking if the condition is met
+     function myFunction() {
+        var i = 0; 
+        do {
+            document.write(i);
+            i++;
+        }
+        while (i < 10)
+        document.getElementById("demo").innerHTML = text;
+     }
+
+     //skip and continue the element in for loop
+     var i;
+     for (i = 0; i < 10; i++) {
+        if (i === 3) {break}
+        document.write(i + "<br>")
+     }
+     document.getElementById("demo").innerText = text;
+
+     //JavaScript Events(mouse clicks, mouse overs, mouse out, key down, document load)
+     
+    
+</script>
+</body>
+</html>
