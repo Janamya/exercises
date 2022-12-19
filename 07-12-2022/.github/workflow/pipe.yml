@@ -1,9 +1,10 @@
-name: CI for Accrue E2E Frontend Tests
+name: CI for Trello Project
 
 on:
   push:
     branches:
-      - master
+      ['master']
+      paths:['07-12-2022/**']
 jobs:
   build:
     runs-on: ubuntu-latest
