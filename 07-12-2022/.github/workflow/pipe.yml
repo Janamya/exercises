@@ -1,31 +1,38 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: CI for Accrue E2E Frontend Tests
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
+    branches:
+      - master
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout
-        - uses: browser-actions/setup-chrome@latest
-        - run: chrome --version
-          uses: actions/checkout@v2
-        - uses: actions/setup-node@v1
-          with:
-            node-version: 18
-        - name: Install
-          run: npm install
-        - name: Test
-          run: npm run wdio
-        - uses: actions/upload-artifact@v1
-          if: failure()
-          with:
-            name: logs
-            path: logs
+      - uses: browser-actions/setup-chrome@latest
+      - run: chrome --version
+        # You fetch the current ref
+      - uses: actions/checkout@v2
+
+      # Use Node version above 14.x you want to use
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      # Install your dependencies (with yarn, npm no matter)
+      - run: yarn install
+        name: Install dependencies
+
+      # This is where you could build your app
+      # You could also start your server process (take a look at https://github.com/Slashgear/slashgear.github.io/blob/source/.github/workflows/continuous-integration.yml)
+
+      # Run your test with the same command you uses locally
+      - run: yarn wdio run wdio.conf.js
+        name: Running E2E tests
+
+
+
+
+
+
+
