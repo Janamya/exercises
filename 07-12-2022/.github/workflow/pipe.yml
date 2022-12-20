@@ -1,17 +1,19 @@
-name: CI for Trello Project
+name: Continuous Integration
 
 on:
   push:
     branches:
-      ['master']
-      paths:['07-12-2022/**']
+      - '**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: browser-actions/setup-chrome@latest
-      - run: chrome --version
-        # You fetch the current ref
+      # First you need to install a chromium browser in your runner
+      - name: Install Chromium
+        run: sudo apt-get install chromium-browser
+
+      # You fetch the current ref
       - uses: actions/checkout@v2
 
       # Use Node version above 14.x you want to use
@@ -30,10 +32,3 @@ jobs:
       # Run your test with the same command you uses locally
       - run: yarn wdio run wdio.conf.js
         name: Running E2E tests
-
-
-
-
-
-
-
