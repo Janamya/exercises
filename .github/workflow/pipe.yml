@@ -2,8 +2,7 @@ name: Continuous
 
 on:
   push:
-    branches:
-      - '**'
+    paths: ['07-12-2022/**']
 
 jobs:
   build:
